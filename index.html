@@ -9,7 +9,7 @@ svg{width:min(96vw,calc(100vh - 70px));height:auto;display:block}
 footer{font-size:13px;color:#8FA3C7;margin:6px;display:flex;gap:12px;align-items:center}
 footer a{color:#7FDBCA}
 text{font-family:Helvetica,Arial,sans-serif;dominant-baseline:central}
-</style><noscript><meta http-equiv="refresh" content="30"></noscript></head><body>
+</style></head><body>
 <svg id="d" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
 <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#070B16"/><stop offset="1" stop-color="#111A33"/></linearGradient></defs>
 <circle cx="400" cy="400" r="392" fill="url(#bg)" stroke="#2A3657" stroke-width="3"/>
@@ -93,5 +93,4 @@ async function getOut(){try{const j=await (await fetch(OM,{cache:'no-store'})).j
  catch(e){Object.assign(S,{oT:NaN,oH:NaN,oT60:NaN,oH60:NaN})}}
 async function tick(){await Promise.all([getRoom(),getOut()]);render()}
 tick();setInterval(tick,30000);
-setTimeout(function(){var u=new URL(location.href);u.searchParams.set('r',Date.now());location.replace(u.toString());},30000);
 </script></body></html>
