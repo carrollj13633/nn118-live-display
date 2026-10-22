@@ -93,5 +93,5 @@ async function getOut(){try{const j=await (await fetch(OM,{cache:'no-store'})).j
   Object.assign(S,{oT:num(j.current.temperature_2m),oH:num(j.current.relative_humidity_2m),oT60:num(j.hourly.temperature_2m[k]),oH60:num(j.hourly.relative_humidity_2m[k])})}
  catch(e){Object.assign(S,{oT:NaN,oH:NaN,oT60:NaN,oH60:NaN})}}
 async function tick(){await Promise.all([getRoom(),getOut()]);render()}
-tick();setInterval(tick,30000);
+tick();setInterval(tick,30000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick()});window.addEventListener('pageshow',e=>{if(e.persisted)tick()});
 </script></body></html>
