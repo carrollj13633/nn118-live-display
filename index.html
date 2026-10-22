@@ -40,7 +40,7 @@ text{font-family:Helvetica,Arial,sans-serif;dominant-baseline:central}
 <script>
 const C={hot:'#FF4040',cold:'#3D9BFF',white:'#FFFFFF',acc:'#2FA8FF',crack:'#FFB347',muted:'#8FA3C7',up:'#FF7A45',down:'#3D9BFF',level:'#9AA5B8',live:'#7CFC9A',sim:'#FFB347'};
 const K={HOT:75,LO:68,HI:74,WET:60,DRY:40,DT:1,DRH:3,TREND:60};
-const TS='https://api.thingspeak.com/channels/3535007/feeds.json?minutes=70&status=true';
+const TS='https://api.thingspeak.com/channels/3535007/feeds.json?results=160&status=true';
 const OM='https://api.open-meteo.com/v1/forecast?latitude=44.5956&longitude=-75.1691&current=temperature_2m,relative_humidity_2m&hourly=temperature_2m,relative_humidity_2m&past_hours=2&forecast_hours=1&temperature_unit=fahrenheit&timezone=America%2FNew_York';
 const U=392,X=u=>400+u*U,Y=u=>400-u*U,R=u=>u*U,$=id=>document.getElementById(id);
 const NS='http://www.w3.org/2000/svg';
@@ -82,7 +82,8 @@ function render(){const s=S;
  arrow($('aOT'),.82,.07,s.oT,s.oT60,K.DT);arrow($('aOH'),.70,-.25,s.oH,s.oH60,K.DRH);
  const d=s.rT-s.oT;$('dl').textContent=isNaN(d)?'--°F vs outside':(d>=0?'+':'')+d.toFixed(1)+'°F vs outside';
  $('live').textContent=s.sim?'Simulated data':'Live data';$('live').setAttribute('fill',s.sim?C.sim:C.live)}
-async function getRoom(){try{const j=await (await fetch(TS,{cache:'no-store'})).json();
+async function getRoom(){try{const j=await (await fetch(TS+'&_='+Date.now(),{cache:'no-store'})).json();
+  {const nt=Math.max(...(j.feeds||[]).map(f=>Date.parse(f.created_at)).filter(isFinite));if(isFinite(S.tLast)&&!(nt>=S.tLast))return;}
   const rows=(j.feeds||[]).map(f=>{const c=num(f.field1);let F=num(f.field5);if(isNaN(F)&&!isNaN(c))F=c*9/5+32;return{t:Date.parse(f.created_at),F,H:num(f.field2),st:f.status}});
   const a=prev(rows,'F'),b=prev(rows,'H');Object.assign(S,{rT:a[0],rT60:a[1],rH:b[0],rH60:b[1],tLast:a[2]??b[2]??NaN});
   const lastE=rows[rows.length-1];S.sim=!!(lastE&&String(lastE.st||'').trim().toLowerCase()==='simulated')}
